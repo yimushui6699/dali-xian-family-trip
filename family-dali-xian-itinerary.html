@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2026大理 + 西安亲子行程优化版</title>
+  <style>
+    :root {
+      --ink: #232018;
+      --muted: #6d665b;
+      --paper: #fff9ee;
+      --line: #d9c7a3;
+      --green: #356859;
+      --lake: #2f6f8f;
+      --clay: #b85c38;
+      --night: #19233a;
+      --soft: rgba(255, 249, 238, .82);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(47, 111, 143, .16), transparent 28rem),
+        radial-gradient(circle at 88% 16%, rgba(197, 140, 50, .18), transparent 26rem),
+        linear-gradient(135deg, #fff9ee 0%, #f7ecd6 48%, #e9f0e5 100%);
+      font-family: "Microsoft YaHei", "Noto Serif SC", "Songti SC", serif;
+      line-height: 1.65;
+    }
+    a { color: var(--lake); text-decoration: none; border-bottom: 1px solid rgba(47,111,143,.35); }
+    a:hover { color: var(--clay); border-color: var(--clay); }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    header { padding: 54px 0 28px; border-bottom: 1px solid rgba(35,32,24,.14); }
+    .hero { display: grid; grid-template-columns: 1.18fr .82fr; gap: 30px; align-items: end; }
+    .eyebrow {
+      display: inline-flex; gap: 10px; align-items: center;
+      padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(255,255,255,.52); color: var(--green); font-size: 14px; font-weight: 700;
+    }
+    h1 { margin: 18px 0 14px; max-width: 850px; font-size: clamp(38px, 6vw, 74px); line-height: .98; font-weight: 900; }
+    .subtitle { margin: 0; max-width: 770px; color: var(--muted); font-size: 18px; }
+    .facts { display: grid; gap: 10px; padding: 18px; background: rgba(255,255,255,.5); border: 1px solid var(--line); border-radius: 8px; }
+    .fact { display: grid; grid-template-columns: 90px 1fr; gap: 12px; font-size: 15px; }
+    .fact b { color: var(--green); }
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,249,238,.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(35,32,24,.12);
+    }
+    .tabs { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; }
+    .tabs a {
+      flex: 0 0 auto; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(255,255,255,.54); color: var(--ink); font-size: 14px; font-weight: 700;
+    }
+    section { padding: 34px 0; }
+    h2 { margin: 0 0 18px; font-size: 30px; line-height: 1.2; }
+    h3 { margin: 0 0 8px; font-size: 20px; line-height: 1.3; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+    .card { border: 1px solid var(--line); border-radius: 8px; background: var(--soft); box-shadow: 0 18px 50px rgba(54,42,20,.08); overflow: hidden; }
+    .card.pad { padding: 18px; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .route { display: grid; grid-template-columns: 118px 1fr; min-height: 118px; }
+    .date { padding: 16px 14px; background: var(--night); color: #fff7e9; }
+    .date strong { display: block; font-size: 28px; line-height: 1; }
+    .date span { font-size: 13px; opacity: .78; }
+    .plan { padding: 16px 18px; }
+    .time { display: grid; grid-template-columns: 78px 1fr; gap: 12px; padding: 10px 0; border-top: 1px dashed rgba(35,32,24,.18); }
+    .time:first-of-type { border-top: 0; }
+    .time b { color: var(--clay); }
+    .tagrow { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+    .tag { padding: 4px 8px; border-radius: 999px; background: rgba(53,104,89,.12); color: var(--green); font-size: 12px; font-weight: 700; }
+    .notice { padding: 18px; background: #23324c; color: #fff7e9; border-radius: 8px; }
+    .notice a { color: #ffd485; border-color: rgba(255,212,133,.5); }
+    .mini-list { margin: 0; padding-left: 18px; }
+    .mini-list li { margin: 7px 0; }
+    .booking { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; padding: 14px 0; border-top: 1px solid rgba(35,32,24,.12); }
+    .booking:first-child { border-top: 0; padding-top: 0; }
+    .booking .label { font-weight: 900; }
+    .booking small { display: block; color: var(--muted); margin-top: 2px; }
+    .pill { white-space: nowrap; padding: 6px 10px; border-radius: 999px; background: rgba(184,92,56,.12); color: var(--clay); font-size: 13px; font-weight: 900; }
+    .weather { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .weather-block { padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,.45); }
+    .bigtemp { margin: 8px 0 2px; color: var(--lake); font-size: 34px; font-weight: 900; }
+    footer { padding: 28px 0 50px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 820px) {
+      .hero, .weather { grid-template-columns: 1fr; }
+      .span-4, .span-6, .span-8 { grid-column: span 12; }
+      .route { grid-template-columns: 94px 1fr; }
+      .date strong { font-size: 24px; }
+      .booking { grid-template-columns: 1fr; }
+      header { padding-top: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow">2026 暑期亲子行程 · 住宿动线优化版</div>
+        <h1>古城住下来，长安按热度慢慢玩</h1>
+        <p class="subtitle">一家四口：爸爸、妈妈、14岁女儿、6岁儿子。大理以古城民宿为基地，西安以西安外国语大学雁塔校区为基地；每天尽量只安排一个重项目，午后避暑，晚上看剧或短距离夜游。</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><b>大理住宿</b><span>大理天籁·沄槿尊享度假美宿（大理古城店）：适合古城、苍山、三塔、喜洲西线。</span></div>
+        <div class="fact"><b>西安住宿</b><span>西安外国语大学（雁塔校区）：靠近小寨、陕历博、大雁塔，适合把文化点放上午。</span></div>
+        <div class="fact"><b>固定演出</b><span>《赳赳大秦》14:30；《长恨歌》20:10。两场不放同一天，减少孩子疲劳。</span></div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap tabs">
+      <a href="#overview">总览</a>
+      <a href="#dali">大理日程</a>
+      <a href="#xian">西安日程</a>
+      <a href="#booking">预约清单</a>
+      <a href="#weather">天气提醒</a>
+      <a href="#backup">取舍建议</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="overview">
+      <div class="grid">
+        <div class="card pad span-8">
+          <h2>这版行程的核心调整</h2>
+          <div class="booking">
+            <div><span class="label">大理住古城：苍山、三塔、古城做近距离项目</span><small>7月15日抵达后不赶景点；7月16日上苍山；7月17日三塔和张家花园；7月18-19日再把洱海西线、东线分开。</small></div>
+            <span class="pill">少折返</span>
+          </div>
+          <div class="booking">
+            <div><span class="label">西安住雁塔：陕历博、大雁塔、小寨都放近处</span><small>刚到西安不安排夜游；第一天从城墙开始适应，陕历博安排在离住处最近的上午。</small></div>
+            <span class="pill">省体力</span>
+          </div>
+          <div class="booking">
+            <div><span class="label">《长恨歌》固定 7月22日 20:10</span><small>当天只做临潼线：兵马俑、华清宫、晚间演出。20:10场结束较晚，第二天上午不排硬项目。</small></div>
+            <span class="pill">露天夜场</span>
+          </div>
+          <div class="booking">
+            <div><span class="label">《赳赳大秦》固定 7月23日 14:30</span><small>剧场在未央/沣东方向，和临潼不是一路；安排成西安市内轻松半日，13:00左右从雁塔出发更稳。</small></div>
+            <span class="pill">提前到场</span>
+          </div>
+        </div>
+        <div class="notice span-4">
+          <h3>亲子节奏</h3>
+          <p>两场演出都很有冲击力，但对6岁孩子来说信息量大、声音和灯光强。建议《长恨歌》当天午后充分休息；《赳赳大秦》当天上午不要排陕历博这种高强度讲解，改成小雁塔或酒店慢起。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="dali">
+      <h2>大理：7月15日 - 7月20日</h2>
+      <div class="grid">
+        <article class="card span-6 route">
+          <div class="date"><strong>7/15</strong><span>周三 · 抵达</span></div>
+          <div class="plan">
+            <h3>入住古城民宿 + 古城慢走</h3>
+            <div class="time"><b>中午</b><span>10:40到达后前往大理天籁·沄槿尊享度假美宿（大理古城店），午餐选古城内或南门附近。</span></div>
+            <div class="time"><b>下午</b><span>午休、整理行李；雨季第一天不排苍山和环海。</span></div>
+            <div class="time"><b>傍晚</b><span>人民路、复兴路、洋人街短距离散步，晚餐后早点休息。</span></div>
+            <div class="tagrow"><span class="tag">从住宿点步行友好</span><span class="tag">不赶景点</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/16</strong><span>周四 · 苍山</span></div>
+          <div class="plan">
+            <h3>苍山半日 + 寂照庵/古城休息</h3>
+            <div class="time"><b>上午</b><span>从古城店出发去苍山最顺。天气好选感通索道或洗马潭索道；带6岁孩子建议优先感通索道，强度更稳。</span></div>
+            <div class="time"><b>下午</b><span>寂照庵简单停留，或直接回民宿午休。若山上风雨雾大，改大理州博物馆。</span></div>
+            <div class="tagrow"><span class="tag">看天气决定</span><span class="tag">山上备外套</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/17</strong><span>周五 · 古城北侧</span></div>
+          <div class="plan">
+            <h3>崇圣寺三塔 + 张家花园三道茶</h3>
+            <div class="time"><b>上午</b><span>从古城去三塔距离近，上午看三塔倒影、南诏大理国线索，避开午后强晒。</span></div>
+            <div class="time"><b>下午</b><span>张家花园看白族民居和三道茶民俗表演；比纯夜场演出更适合小朋友。</span></div>
+            <div class="tagrow"><span class="tag">近距离文化日</span><span class="tag">提前24小时订张家花园</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/18</strong><span>周六 · 洱海西线</span></div>
+          <div class="plan">
+            <h3>龙龛/才村 + 喜洲古镇</h3>
+            <div class="time"><b>上午</b><span>从古城到龙龛、才村生态廊道很顺，分段骑行或坐电瓶车，不建议一家四口全程骑。</span></div>
+            <div class="time"><b>下午</b><span>去喜洲古镇、转角楼、严家大院，尝喜洲粑粑；雨大就在喜洲慢逛室内院落。</span></div>
+            <div class="tagrow"><span class="tag">拍照友好</span><span class="tag">少走回头路</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/19</strong><span>周日 · 洱海东线</span></div>
+          <div class="plan">
+            <h3>双廊 + 小普陀 + 可选洱海游船</h3>
+            <div class="time"><b>上午</b><span>建议包车或租车走东线，双廊看洱海和苍山远景；不要把西线、东线硬塞同一天。</span></div>
+            <div class="time"><b>下午</b><span>小普陀短停后回古城民宿休息。若下雨或孩子晕车，改洱海大游船。</span></div>
+            <div class="tagrow"><span class="tag">包车更省心</span><span class="tag">注意晕车</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/20</strong><span>周一 · 转场</span></div>
+          <div class="plan">
+            <h3>古城补漏 + 晚上到西安</h3>
+            <div class="time"><b>上午</b><span>按离开时间选择大理州博物馆、非遗博物馆或古城买伴手礼，别再排远距离环海。</span></div>
+            <div class="time"><b>晚上</b><span>19:55到西安后前往西安外国语大学雁塔校区周边入住/集合，晚餐从简，不安排大唐不夜城。</span></div>
+            <div class="tagrow"><span class="tag">保存体力</span><span class="tag">为西安第一天留状态</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="xian">
+      <h2>西安：7月21日 - 7月26日</h2>
+      <div class="grid">
+        <article class="card span-6 route">
+          <div class="date"><strong>7/21</strong><span>周二 · 市区适应</span></div>
+          <div class="plan">
+            <h3>城墙南门 + 钟鼓楼 + 小寨/大雁塔夜景</h3>
+            <div class="time"><b>上午</b><span>从雁塔校区出发去永宁门，登城墙走一段即可；太晒就不上自行车。</span></div>
+            <div class="time"><b>下午</b><span>回雁塔/小寨一带午休，赛格商场补给、防暑、吃饭都方便。</span></div>
+            <div class="time"><b>晚上</b><span>大雁塔北广场和大唐不夜城只走核心段，住处离雁塔近，孩子累了可快速撤回。</span></div>
+            <div class="tagrow"><span class="tag">适应西安热度</span><span class="tag">夜游短距离</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/22</strong><span>周三 · 临潼</span></div>
+          <div class="plan">
+            <h3>兵马俑 + 华清宫 + 《长恨歌》20:10</h3>
+            <div class="time"><b>上午</b><span>建议7:20左右从雁塔校区出发，早场进秦始皇帝陵博物院；先看一号坑，再看铜车马，讲解一定要提前订。</span></div>
+            <div class="time"><b>下午</b><span>午餐后去华清宫，找阴凉慢走；丽山园按体力取舍，别为了打卡拖垮晚上状态。</span></div>
+            <div class="time"><b>晚上</b><span>19:30左右入场，20:10看《长恨歌》。结束后提前约好回雁塔的车，预计返程较晚。</span></div>
+            <div class="tagrow"><span class="tag">最重一天</span><span class="tag">露天演出看天气</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/23</strong><span>周四 · 看剧日</span></div>
+          <div class="plan">
+            <h3>小雁塔/西安博物院 + 《赳赳大秦》14:30</h3>
+            <div class="time"><b>上午</b><span>前一晚《长恨歌》较晚，上午慢起。可选西安博物院和小雁塔，体量友好，不抢体力。</span></div>
+            <div class="time"><b>中午</b><span>12:30前吃完午饭，13:00左右从雁塔出发去赳赳大秦剧场，预留路况时间。</span></div>
+            <div class="time"><b>下午</b><span>14:30看《赳赳大秦》，演出约80分钟。建议提前30分钟到场，开演后迟到可能影响入场。</span></div>
+            <div class="tagrow"><span class="tag">固定14:30</span><span class="tag">不再排陕历博</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/24</strong><span>周五 · 陕历博</span></div>
+          <div class="plan">
+            <h3>陕西历史博物馆 + 大雁塔/曲江轻松晚餐</h3>
+            <div class="time"><b>上午</b><span>陕历博离雁塔校区近，安排上午最顺。建议请讲解，重点看周秦汉唐，14岁女儿会更有收获。</span></div>
+            <div class="time"><b>下午</b><span>回住处午休；如果没约到陕历博，改碑林或西安博物院。</span></div>
+            <div class="time"><b>晚上</b><span>大雁塔、曲江池或大悦城轻松吃饭，不再安排大型演出。</span></div>
+            <div class="tagrow"><span class="tag">提前5天17:00抢</span><span class="tag">离住宿近</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/25</strong><span>周六 · 碑林</span></div>
+          <div class="plan">
+            <h3>碑林博物馆 + 书院门 + 小南门/回民街</h3>
+            <div class="time"><b>上午</b><span>从雁塔去碑林、书院门顺路，上午看碑林，给14岁女儿安排“找一块最喜欢的碑”小任务。</span></div>
+            <div class="time"><b>下午</b><span>书院门、湘子庙街轻逛后回住处休息；天气太热就改商场补给。</span></div>
+            <div class="time"><b>晚上</b><span>小南门、洒金桥或回民街择一即可，不要三个夜市都跑。</span></div>
+            <div class="tagrow"><span class="tag">收尾文化日</span><span class="tag">室内外结合</span></div>
+          </div>
+        </article>
+
+        <article class="card span-6 route">
+          <div class="date"><strong>7/26</strong><span>周日 · 离开</span></div>
+          <div class="plan">
+            <h3>按离开时间安排半日</h3>
+            <div class="time"><b>清晨</b><span>如果离开时间晚，可去小南门早市；否则就在雁塔/小寨附近早餐。</span></div>
+            <div class="time"><b>出发</b><span>暑期西安交通容易拥堵，去机场/高铁站至少多留30-45分钟；不再安排大景点。</span></div>
+            <div class="tagrow"><span class="tag">不再排远点</span><span class="tag">防误车/机</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="booking">
+      <h2>预约与购票入口</h2>
+      <div class="grid">
+        <div class="card pad span-6">
+          <h3>博物馆</h3>
+          <div class="booking">
+            <div><span class="label">陕西历史博物馆本馆</span><small>建议7月24日上午参观。官方唯一预约渠道为“陕西历史博物馆”微信公众号；本馆提前5天、每日17:00放票，7月19日17:00重点抢。</small></div>
+            <a href="https://www.sxhm.com/guide.html" target="_blank">参观指南</a>
+          </div>
+          <div class="booking">
+            <div><span class="label">秦始皇帝陵博物院</span><small>建议7月22日上午早场。线上实名预约购票，按时段入园；暑期人多，建议提前半小时到达。</small></div>
+            <a href="https://bmy.albatrip.cn/pc/index.html?orgId=382e8c2221654eaa965cafaaabe3cd88" target="_blank">官方票务</a>
+          </div>
+          <div class="booking">
+            <div><span class="label">西安博物院 / 小雁塔</span><small>建议7月23日上午作为《长恨歌》后恢复日；可通过官网、官方微信、美团/大众点评预约。</small></div>
+            <a href="https://xabwy.com/index.html" target="_blank">官网</a>
+          </div>
+          <div class="booking">
+            <div><span class="label">西安碑林博物馆</span><small>建议7月25日上午参观。提前5天通过官网、官方微信服务号或支付宝小程序预约购票。</small></div>
+            <a href="https://www.beilin-museum.com/index.php?a=index&c=Lists&m=home&tid=68" target="_blank">参观指南</a>
+          </div>
+          <div class="booking">
+            <div><span class="label">大理州博物馆</span><small>雨天备选或7月20日半日补漏；建议关注“大理白族自治州博物馆”公众号确认开放安排。</small></div>
+            <a href="http://www.dlzbwg.cn/" target="_blank">官网</a>
+          </div>
+        </div>
+
+        <div class="card pad span-6">
+          <h3>演出与景区</h3>
+          <div class="booking">
+            <div><span class="label">《长恨歌》20:10</span><small>安排7月22日晚，华清宫露天实景演出。优先官方公众号/官方商城、华清宫官网入口；雨天可能调整，购票前看退改规则。</small></div>
+            <a href="https://www.hqc.cn/" target="_blank">华清宫官网</a>
+          </div>
+          <div class="booking">
+            <div><span class="label">《赳赳大秦》14:30</span><small>安排7月23日下午。剧场在未央区天台路与沣东大道附近；建议提前30分钟到，大小同价常见，具体以购票页为准。</small></div>
+            <a href="https://jjdq.changhenge.cn/" target="_blank">票务入口</a>
+          </div>
+          <div class="booking">
+            <div><span class="label">大理旅游集团景区票务</span><small>苍山索道、洱海游船、崇圣寺三塔等可从集团官网进入对应景区页面。</small></div>
+            <a href="https://www.dalitravel.cn/" target="_blank">大理旅游网</a>
+          </div>
+          <div class="booking">
+            <div><span class="label">张家花园</span><small>白族民居、三道茶、民俗表演；官网提示微信订票需提前24小时。</small></div>
+            <a href="https://www.xn--7gqz73bttehwjkjw.com/col.jsp?id=104" target="_blank">官网说明</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="weather">
+      <h2>天气和温度影响</h2>
+      <div class="weather">
+        <div class="weather-block">
+          <h3>大理 7月15日-20日</h3>
+          <div class="bigtemp">约 18-26°C</div>
+          <p>高原雨季，短时阵雨常见，紫外线仍强。住古城对苍山、三塔、古城散步很友好；但苍山索道受风、雨、雾影响明显。</p>
+          <ul class="mini-list">
+            <li>随身：薄外套、雨衣/折叠伞、防晒帽、防晒霜。</li>
+            <li>苍山日提前看云量和风；天气差就换博物馆/古城。</li>
+            <li>环海分成西线、东线两天，减少孩子晕车和暴晒。</li>
+          </ul>
+        </div>
+        <div class="weather-block">
+          <h3>西安 7月20日-26日</h3>
+          <div class="bigtemp">约 23-34°C</div>
+          <p>西安7月日间炎热，午后体感温度高。住雁塔校区的优势是陕历博、大雁塔、小寨近，适合上午文化点、下午休息。</p>
+          <ul class="mini-list">
+            <li>随身：遮阳伞、冰袖/帽子、足量水、电解质、便携风扇。</li>
+            <li>7月22日《长恨歌》结束晚，7月23日上午务必放轻。</li>
+            <li>《长恨歌》露天，《赳赳大秦》室内；雨天优先保留室内演出。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="backup">
+      <h2>取舍建议</h2>
+      <div class="grid">
+        <div class="card pad span-4">
+          <h3>如果大理下雨</h3>
+          <ul class="mini-list">
+            <li>苍山改大理州博物馆 + 古城室内咖啡/书店。</li>
+            <li>洱海骑行改喜洲室内院落和张家花园。</li>
+            <li>东线包车保留，减少下车点。</li>
+          </ul>
+        </div>
+        <div class="card pad span-4">
+          <h3>如果西安太热</h3>
+          <ul class="mini-list">
+            <li>城墙改夜游或只看永宁门。</li>
+            <li>大唐不夜城只走大雁塔周边一小段。</li>
+            <li>下午固定回雁塔/小寨休息，别硬撑。</li>
+          </ul>
+        </div>
+        <div class="card pad span-4">
+          <h3>两场演出提醒</h3>
+          <ul class="mini-list">
+            <li>《长恨歌》20:10结束晚，提前约车回雁塔。</li>
+            <li>《赳赳大秦》14:30建议13:00左右出发。</li>
+            <li>6岁孩子如果怕声光，提前准备降噪耳塞。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    信息核对时间：2026年7月10日。票价、场次、开放时间和预约规则可能临时调整，最终以下单页和景区/博物馆公告为准。出行前一天建议再次确认天气、演出状态、交通耗时和预约订单。
+  </footer>
+</body>
+</html>

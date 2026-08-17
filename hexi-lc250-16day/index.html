@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>西北全景越野路书 | LC250 TX</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root{--sand:#f3e2c2;--paper:#fff9ec;--card:#fffdf7;--ink:#2d241c;--muted:#776853;--line:#e1cfaa;--terra:#b45035;--deep:#211a16;--gold:#d49a34;--oasis:#267466;--blue:#2e6689;--bad:#bd4d31;--soft:rgba(255,255,255,.78)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:"Microsoft YaHei","Noto Sans SC",sans-serif;line-height:1.62;background:radial-gradient(circle at 12% 0%,rgba(212,154,52,.24),transparent 34rem),radial-gradient(circle at 86% 12%,rgba(38,116,102,.16),transparent 30rem),linear-gradient(180deg,#f8ecd4,#efe1c4 58%,#ead6b2)}
+    a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(46,102,137,.3)}a:hover{color:var(--terra);border-color:var(--terra)}.wrap{width:min(1240px,calc(100% - 32px));margin:0 auto}
+    header{background:linear-gradient(135deg,#211a16,#45301d 62%,#73502a);color:#fff1d4;padding:44px 0 24px;position:relative;overflow:hidden}header:after{content:"";position:absolute;inset:auto -8% -46px -8%;height:120px;background:radial-gradient(60% 120px at 50% 100%,rgba(255,255,255,.16),transparent 70%)}
+    .hero{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:end}.eyebrow{letter-spacing:4px;color:#ffd887;font-size:12px;font-weight:900}h1{margin:8px 0 12px;font-size:clamp(34px,6vw,70px);line-height:.98;font-weight:900;font-family:"Noto Serif SC","SimSun",serif}.sub{max-width:820px;color:#ead9b8;font-size:17px}.hero-card{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);border-radius:10px;padding:16px}.fact{display:grid;grid-template-columns:88px 1fr;gap:10px;padding:8px 0;border-top:1px solid rgba(255,255,255,.12);font-size:14px}.fact:first-child{border-top:0}.fact b{color:#ffd887}
+    nav{position:sticky;top:0;z-index:20;background:rgba(33,26,22,.94);backdrop-filter:blur(10px)}.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 0}.tabs a{flex:0 0 auto;color:#f3e2c2;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:800;background:rgba(255,255,255,.06)}
+    section{padding:30px 0}.title{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-size:28px;font-family:"Noto Serif SC","SimSun",serif}.title:before{content:"";width:7px;height:28px;border-radius:5px;background:var(--gold)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-12{grid-column:span 12}.card{border:1px solid var(--line);border-radius:10px;background:var(--soft);box-shadow:0 16px 42px rgba(81,55,25,.1);overflow:hidden}.pad{padding:18px}
+    .kpi{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.kpi div{background:#fff8e8;border:1px solid var(--line);border-radius:10px;padding:12px}.kpi b{display:block;color:var(--terra);font-size:23px;line-height:1.1}.kpi span{font-size:12px;color:var(--muted)}
+    #map{height:540px;width:100%;border-radius:10px;border:1px solid var(--line);overflow:hidden}.map-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{display:inline-block;border:0;border-radius:999px;background:var(--deep);color:#fff!important;padding:7px 12px;font-size:12px;font-weight:800;border-bottom:0}.btn.alt{background:var(--oasis)}.btn.warn{background:var(--terra)}.btn.light{background:#fff8e8;color:var(--ink)!important;border:1px solid var(--line)}
+    .day{display:grid;grid-template-columns:122px 1fr}.date{background:var(--deep);color:#fff1d4;padding:16px}.date strong{display:block;font-size:30px;line-height:1}.date span{font-size:12px;color:#d7c3a0}.body{padding:16px}.body h3{margin:0 0 8px;font-size:20px}.meta{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0}.tag{border-radius:999px;background:#f4ead6;border:1px solid var(--line);padding:3px 8px;font-size:12px;color:#604d38}.tag.hot{background:#fbe8df;color:#96391f}.tag.good{background:#e4f2ee;color:#1e6559}.tag.blue{background:#e6f0f7;color:#235d7d}.tag.red{background:#ffe5dc;color:#9b2f18}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.mini h4{margin:0 0 5px;color:var(--oasis);font-size:13px}.mini ul{margin:0;padding-left:17px}.mini li{margin:4px 0;font-size:13px}.weatherbox{background:#eef7f5;border-left:4px solid var(--oasis);border-radius:8px;padding:10px;font-size:13px}.alert{background:#fff1e9;border-left:4px solid var(--bad);border-radius:8px;padding:10px;font-size:13px}.linklist{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.linklist a{border:1px solid var(--line);background:#fffaf0;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800}
+    .table{width:100%;border-collapse:collapse;font-size:14px}.table th,.table td{border-top:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}.table th{color:var(--terra);font-size:12px}
+    .risk{display:grid;grid-template-columns:88px 1fr;gap:12px;border-top:1px solid var(--line);padding:12px 0}.risk:first-child{border-top:0}.risk b{color:var(--terra)}.risk strong{display:block}
+    footer{color:var(--muted);font-size:12px;padding:22px 0 46px}
+    @media(max-width:900px){.hero,.split{grid-template-columns:1fr}.span-4,.span-5,.span-6,.span-7,.span-8{grid-column:span 12}.day{grid-template-columns:92px 1fr}.kpi{grid-template-columns:repeat(2,1fr)}#map{height:390px}.date strong{font-size:24px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow">NORTHWEST OFF-ROAD · 2026.09.25-10.10</div>
+        <h1>16天西北全景深度越野路书</h1>
+        <div class="sub">依据飞书页面“16+1天 · 4150km”版本完善：去程人飞兰州、车先托运到兰州；河西走廊、柴达木盆地、青南高原、甘南藏区四段式错峰；10月10日兰州交车托运并飞回深圳，10月11日作为保险缓冲日。</div>
+      </div>
+      <div class="hero-card">
+        <div class="fact"><b>方式</b><span>深圳→兰州人车分开；兰州取车后自驾；兰州回深圳再次人车分开。</span></div>
+        <div class="fact"><b>车辆</b><span>一汽丰田普拉多 LC250 TX 2025，原厂邓禄普 Grandtrek AT30 265/65R18。</span></div>
+        <div class="fact"><b>高反</b><span>风险集中在D2达坂山、D7当金山、D10-D12青南高原、D14郎木寺。</span></div>
+      </div>
+    </div>
+  </header>
+  <nav><div class="wrap tabs"><a href="#overview">总览</a><a href="#mapsec">路线地图</a><a href="#days">每日路书</a><a href="#altitude">高反雷达</a><a href="#tickets">票务住宿</a><a href="#vehicle">车辆轮胎</a><a href="#return">托运航班</a><a href="#emergency">应急</a></div></nav>
+  <main class="wrap">
+    <section id="overview">
+      <h2 class="title">四段式错峰策略</h2>
+      <div class="grid">
+        <div class="card pad span-8">
+          <div class="kpi">
+            <div><b>16+1</b><span>核心行程+缓冲</span></div>
+            <div><b>4150km</b><span>兰州起止自驾</span></div>
+            <div><b>4200m</b><span>莲宝叶则最高点</span></div>
+            <div><b>6天</b><span>纯游玩/轻驾驶</span></div>
+            <div><b>2次</b><span>车辆托运</span></div>
+            <div><b>1.75-1.95万</b><span>预算/人</span></div>
+          </div>
+          <p>9月25日飞抵兰州并取托运到达的车；9月29日前完成莫高窟、七彩丹霞、嘉峪关等核心；10月1-3日进入柴达木盆地稀释国庆人潮；10月4-8日切入青南和甘南；10月9-10日低海拔收尾、兰州交车托运、飞回深圳。</p>
+          <div class="alert">关键变化：本页已从“深圳全程开到西北”修正为飞书页面中的“去程人车分开”。D1不是长途驾驶，而是深圳飞兰州、取车、甘肃省博/黄河线轻游。</div>
+        </div>
+        <div class="card pad span-4">
+          <h3>出发日期</h3>
+          <p>默认按飞书页面：2026年9月25日。动态天气只对接近出发日时最有意义，临行前请再次刷新。</p>
+          <label>出发日期：<input id="startDate" type="date" value="2026-09-25" style="width:100%;margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:8px"></label>
+        </div>
+      </div>
+    </section>
+    <section id="mapsec"><h2 class="title">每天路线地图</h2><div class="grid"><div class="card pad span-8"><div id="map"></div><div class="map-actions" id="mapButtons"></div></div><div class="card pad span-4"><h3>地图说明</h3><p>路线为规划示意，点击标记查看当天路段、海拔和加油提醒。每天卡片的“高德路线”可打开手机导航。</p><div class="weatherbox" id="weatherSummary">正在加载天气概览...</div></div></div></section>
+    <section id="days"><h2 class="title">17天逐日详细路书</h2><div class="grid" id="dayGrid"></div></section>
+    <section id="altitude">
+      <h2 class="title">高反风险雷达与退出机制</h2>
+      <div class="grid">
+        <div class="card pad span-7">
+          <h3>可能发生强烈高反的时间点</h3>
+          <div class="risk"><b>D2</b><div><strong>9/26 达坂山约3792m，夜宿祁连约2700-2800m</strong>首次快速上高原，最容易出现头痛、失眠、气短。若下午已明显不适，不要硬住祁连，改回西宁约2260m或门源/西宁就医观察。</div></div>
+          <div class="risk"><b>D7</b><div><strong>10/1 当金山垭口约3650m，进入柴达木</strong>长途+垭口+风寒叠加，若头痛恶心明显，取消翡翠湖，直接德令哈休息；严重则下撤敦煌/阿克塞或就近就医。</div></div>
+          <div class="risk"><b>D9-D10</b><div><strong>10/3 乌兰/茶卡约3000m，10/4 玛沁大武镇约3700m</strong>这是全程住宿海拔的高风险跳升。若D9夜里睡不着、头痛加重，D10不要去玛沁，改走西宁/兰州低海拔线。</div></div>
+          <div class="risk"><b>D11</b><div><strong>10/5 莲宝叶则景区约4000-4200m</strong>全程最高风险点。强烈头痛、呕吐、意识混乱、口唇发紫，立即下撤，不等、不拍照、不继续徒步。</div></div>
+          <div class="risk"><b>D14</b><div><strong>10/8 郎木寺镇约3300m</strong>若前面高反未恢复，郎木寺可能再次触发。可跳过郎木寺，直接迭部→临夏/兰州。</div></div>
+        </div>
+        <div class="card pad span-5">
+          <h3>无高反替代路线</h3>
+          <p><b>保守替代线A：河西+敦煌后退出</b><br>敦煌/德令哈后不进青南：敦煌→嘉峪关/张掖→兰州→天水麦积山或平凉崆峒山→兰州飞回。全线以1500m上下为主，基本避开高原住宿。</p>
+          <p><b>替代线B：茶卡后低海拔回收</b><br>D9茶卡/乌兰后，取消玛沁、久治、莲宝叶则，改乌兰→西宁→兰州→临夏→迭部或直接兰州。若已经出现明显高反，优先西宁/兰州，不再进甘南高海拔镇。</p>
+          <p><b>即时退出线</b><br>玛沁/久治严重：按飞书原页建议立即下撤迭部约2400m或阿坝约3200m；若症状重，优先医疗资源更好的县城/州府，不在景区住宿观察。</p>
+          <div class="alert">危险信号：剧烈头痛、反复呕吐、走路不稳、意识模糊、口唇发紫、静息气短。出现任一项，停止行程，立即下撤并就医。</div>
+        </div>
+      </div>
+    </section>
+    <section id="tickets">
+      <h2 class="title">票务、住宿与费用</h2>
+      <div class="grid">
+        <div class="card pad span-6"><h3>行前必办</h3><table class="table"><tr><th>事项</th><th>截止</th><th>入口/建议</th></tr><tr><td>莫高窟A类票</td><td>8/31 07:00</td><td><a href="https://www.mgk.org.cn/" target="_blank">莫高窟参观预约网</a> 抢9/29场次，最高优先级。</td></tr><tr><td>去程车辆托运</td><td>9/15前</td><td>深圳→兰州，约2400-3000元，9/21-22交车。</td></tr><tr><td>深圳→兰州机票</td><td>9/15前</td><td><a href="https://m.ctrip.com/html5/flight/szxzgc-day-1.html" target="_blank">携程 SZX-ZGC</a>，约800-1200元。</td></tr><tr><td>兰州→深圳机票</td><td>9/20前</td><td><a href="https://m.ctrip.com/html5/flight/zgcszx-day-1.html" target="_blank">携程 ZGC-SZX</a>，10/10晚班机。</td></tr><tr><td>全程住宿</td><td>9/25前</td><td>敦煌、大柴旦、玛沁、迭部优先锁定可取消房。</td></tr></table></div>
+        <div class="card pad span-6"><h3>门票与酒店入口</h3><div class="linklist"><a href="https://www.gansumuseum.com/" target="_blank">甘肃省博</a><a href="https://www.zydanxia.com/" target="_blank">七彩丹霞</a><a href="https://www.jygcc.com.cn/" target="_blank">嘉峪关</a><a href="https://www.mgk.org.cn/" target="_blank">莫高窟</a><a href="https://www.mssyyq.com/dianzishangwu/" target="_blank">鸣沙山月牙泉</a><a href="https://www.chakasl.com/" target="_blank">茶卡盐湖</a><a href="https://www.abatour.com/scenic/11" target="_blank">莲宝叶则</a><a href="https://hotels.ctrip.com/" target="_blank">携程酒店</a><a href="https://hotel.qunar.com/" target="_blank">去哪儿酒店</a></div><p>住宿错峰原则：不住景区口，住附近县城，如临泽、德令哈、乌兰、迭部；景区口国庆房价可涨2-3倍，县城更稳。</p></div>
+      </div>
+    </section>
+    <section id="vehicle"><h2 class="title">LC250 TX 与 AT30 轮胎</h2><div class="grid"><div class="card pad span-4"><h3>结论：不需要换胎</h3><p>路线铺装率约95%以上，Grandtrek AT30可胜任G315便道、莲宝叶则景区路、扎尕那村道等轻度非铺装。</p></div><div class="card pad span-4"><h3>胎压策略</h3><ul><li>高速/国道：冷胎2.3-2.5bar，以车门铭牌为准。</li><li>软沙轻困：停止猛踩，短时降至1.5-1.8bar脱困。</li><li>回柏油路：车载气泵补回正常胎压。</li></ul></div><div class="card pad span-4"><h3>安全装备</h3><ul><li>全尺寸备胎、气泵、胎压计、补胎胶条、搭电宝。</li><li>5吨以上拖车绳、防滑链、防冻玻璃水-10℃。</li><li>底盘护板推荐；临行大幅升高不推荐。</li></ul></div></div></section>
+    <section id="return"><h2 class="title">托运与返程</h2><div class="grid"><div class="card pad span-6"><h3>车辆托运</h3><p>去程深圳→兰州、回程兰州→深圳均提前订。询价时说明：普拉多LC250、SUV、车长约4.9m、车高约1.9m、车值和保险需求。问清门到门/站到站、运输周期、保险上限、随车物品规则。</p><div class="linklist"><a href="https://www.iyunche.com/" target="_blank">运车管家</a><a href="https://www.anji-ceva.com/" target="_blank">安吉物流</a><a href="https://zhongzhen56.com/" target="_blank">中振物流</a><a href="https://www.deppon.com/wangdian/c620100/" target="_blank">德邦兰州网点</a></div></div><div class="card pad span-6"><h3>回程航班</h3><p>D16兰州市区到中川机场托运点交车后飞深圳。建议买10/10晚班机；若托运交接不可控，保留D17 10/11缓冲。</p><div class="linklist"><a href="https://m.ctrip.com/html5/flight/zgcszx-day-1.html" target="_blank">兰州-深圳航班</a><a href="https://www.variflight.com/h5/" target="_blank">飞常准</a><a href="https://www.umetrip.com/webStatic/about/download.html" target="_blank">航旅纵横</a><a href="https://www.csair.com/cn/" target="_blank">南航官网</a></div></div></div></section>
+    <section id="emergency"><h2 class="title">应急预案</h2><div class="grid"><div class="card pad span-4"><h3>道路封闭</h3><p>莲宝叶则关闭：久治直接去若尔盖，多玩唐克黄河第一湾。当金山封闭：绕行格尔木→德令哈，约多300km。</p></div><div class="card pad span-4"><h3>车损故障</h3><p>戈壁段拨12122或保险道路救援；高原段优先联系当地修理厂/托运公司救援。不夜行、不单车进无信号便道。</p></div><div class="card pad span-4"><h3>没抢到莫高窟</h3><p>抢B类应急票；或改西千佛洞；或将雅丹/鸣沙山顺序调整，但9/30临近国庆，人流更大。</p></div></div></section>
+  </main>
+  <footer class="wrap">依据飞书页面 https://4ku6p5ybn34bn.feishuapp.com/app/app_17c1u6qdvh1/ 与 Project01 原始路书补充制作。制作时间：2026年8月17日；票价、开放、天气、航班、托运价格以当日官方信息为准。</footer>
+  <script>
+    const route=[
+      {d:1,date:'9/25',city:'兰州',from:'深圳宝安',to:'兰州中川',km:'飞行约3h',lat:36.06,lng:103.83,alt:'1520m',theme:'飞抵取车',spots:['兰州取车','甘肃省博','黄河风情线'],fuel:'取车后兰州市区加满95号油，核对胎压和随车工具。',alert:'确认托运车辆已到兰州；若车辆晚到，D1只住兰州并顺延。',ticket:'https://www.gansumuseum.com/',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E5%85%B0%E5%B7%9E%20%E7%94%98%E8%82%83%E7%9C%81%E5%8D%9A',risk:'低'},
+      {d:2,date:'9/26',city:'祁连',from:'兰州',to:'门源-达坂山-祁连',km:'500km',lat:38.18,lng:100.25,alt:'约2800m，达坂山约3792m',theme:'祁连草原',spots:['门源','达坂山','阿柔大寺'],fuel:'兰州、门源、祁连；进入祁连前补满。',alert:'首次高海拔日。头痛/气短明显则回西宁或门源休息。',ticket:'https://uri.amap.com/search?keyword=%E7%A5%81%E8%BF%9E%E8%8D%89%E5%8E%9F',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E7%A5%81%E8%BF%9E%20%E5%8E%BF%E5%9F%8E',risk:'中高'},
+      {d:3,date:'9/27',city:'张掖临泽',from:'祁连',to:'扁都口-七彩丹霞-临泽',km:'200km',lat:38.96,lng:100.13,alt:'约1450m',theme:'丹霞日落',spots:['扁都口','七彩丹霞','临泽住宿'],fuel:'祁连、临泽。',alert:'丹霞日落停车拥堵，15:00左右入园。',ticket:'https://www.zydanxia.com/',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E4%B8%B4%E6%B3%BD%20%E9%85%92%E5%BA%97',risk:'低'},
+      {d:4,date:'9/28',city:'敦煌',from:'张掖',to:'平山湖-嘉峪关-敦煌',km:'580km / 约7h',lat:40.14,lng:94.66,alt:'约1139m',theme:'最长驾驶日',spots:['平山湖大峡谷','嘉峪关关城','敦煌'],fuel:'临泽、玉门服务区、瓜州、敦煌；戈壁前必须补满。',alert:'最长驾驶日，戈壁横风和大车多。嘉峪关不恋战。',ticket:'https://www.jygcc.com.cn/',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E6%95%A6%E7%85%8C%20%E5%B8%82%E5%8C%BA',risk:'低'},
+      {d:5,date:'9/29',city:'敦煌',from:'敦煌市区',to:'莫高窟-鸣沙山',km:'市内短途',lat:40.04,lng:94.81,alt:'约1100m',theme:'莫高窟A类票',spots:['莫高窟','鸣沙山月牙泉','日落'],fuel:'敦煌市区加满，为D6西线准备。',alert:'莫高窟9/29 A类票是最高优先级；风沙天复核鸣沙山开放。',ticket:'https://www.mgk.org.cn/',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E6%95%A6%E7%85%8C%20%E9%B8%A3%E6%B2%99%E5%B1%B1',risk:'低'},
+      {d:6,date:'9/30',city:'敦煌',from:'敦煌',to:'玉门关-雅丹-阳关-敦煌',km:'约380km',lat:40.35,lng:93.87,alt:'约1100-1300m',theme:'敦煌西线',spots:['玉门关','汉长城','雅丹魔鬼城','阳关'],fuel:'敦煌出发满油，西线约380km无稳定油站。',alert:'无信号/无补给路段，不夜行，午后大风扬沙可取消雅丹日落。',ticket:'https://uri.amap.com/search?keyword=%E6%95%A6%E7%85%8C%E9%9B%85%E4%B8%B9%E9%AD%94%E9%AC%BC%E5%9F%8E',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E6%95%A6%E7%85%8C%20%E9%85%92%E5%BA%97',risk:'低'},
+      {d:7,date:'10/1',city:'德令哈',from:'敦煌',to:'当金山-翡翠湖-德令哈',km:'490km',lat:37.37,lng:97.37,alt:'约2980m，当金山约3650m',theme:'柴达木入口',spots:['当金山','大柴旦翡翠湖','德令哈'],fuel:'敦煌、阿克塞、德令哈；阿克塞是进入柴达木前可靠油站。',alert:'当金山高反+横风+低温。不要住大柴旦天价房，直接德令哈。',ticket:'https://uri.amap.com/search?keyword=%E5%A4%A7%E6%9F%B4%E6%97%A6%E7%BF%A1%E7%BF%A0%E6%B9%96',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E5%BE%B7%E4%BB%A4%E5%93%88%20%E9%85%92%E5%BA%97',risk:'中'},
+      {d:8,date:'10/2',city:'大柴旦',from:'德令哈',to:'G315-水上雅丹-大柴旦',km:'560km',lat:37.85,lng:95.36,alt:'约3100m',theme:'G315波浪公路',spots:['G315','乌素特水上雅丹','双色湖'],fuel:'德令哈、小柴旦、大柴旦；水上雅丹油站不可靠。',alert:'G315拍照不能站路中间；无人区横风、大车和疲劳风险高。',ticket:'https://uri.amap.com/search?keyword=%E4%B9%8C%E7%B4%A0%E7%89%B9%E6%B0%B4%E4%B8%8A%E9%9B%85%E4%B8%B9',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E5%A4%A7%E6%9F%B4%E6%97%A6%20%E9%85%92%E5%BA%97',risk:'中'},
+      {d:9,date:'10/3',city:'乌兰',from:'大柴旦',to:'茶卡盐湖-乌兰',km:'380km',lat:36.93,lng:98.48,alt:'约3000m',theme:'茶卡盐湖',spots:['茶卡盐湖','乌兰县城'],fuel:'大柴旦、乌兰。',alert:'茶卡湖水冷，租高筒防水靴；不住茶卡镇。若夜间高反，D10直接西宁/兰州。',ticket:'https://www.chakasl.com/',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E4%B9%8C%E5%85%B0%E5%8E%BF%20%E9%85%92%E5%BA%97',risk:'中'},
+      {d:10,date:'10/4',city:'玛沁',from:'乌兰',to:'共和-玛沁',km:'450km',lat:34.47,lng:100.24,alt:'约3700m',theme:'青南高原',spots:['共和','阿尼玛卿远眺','玛沁大武镇'],fuel:'乌兰、共和、玛沁；共和是青南前最后大油站。',alert:'最高住宿海拔日。睡不着、头痛加重即取消后续莲宝叶则。',ticket:'https://uri.amap.com/search?keyword=%E9%98%BF%E5%B0%BC%E7%8E%9B%E5%8D%BF',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E7%8E%9B%E6%B2%81%20%E5%A4%A7%E6%AD%A6%E9%95%87',risk:'高'},
+      {d:11,date:'10/5',city:'久治',from:'玛沁',to:'久治-莲宝叶则',km:'280km',lat:33.43,lng:101.48,alt:'住宿约3600m，景区约4200m',theme:'莲宝叶则',spots:['莲宝叶则','石头城堡','圣湖'],fuel:'玛沁、久治；莲宝叶则内无油站。',alert:'全程最高高反风险点。强烈症状立即下撤，不徒步、不硬撑。',ticket:'https://www.abatour.com/scenic/11',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E4%B9%85%E6%B2%BB%20%E9%85%92%E5%BA%97',risk:'很高'},
+      {d:12,date:'10/6',city:'迭部',from:'久治',to:'若尔盖-扎尕那-迭部',km:'260km',lat:34.06,lng:103.23,alt:'迭部约2400m',theme:'低海拔下撤友好日',spots:['若尔盖花湖','扎尕那落日','迭部住宿'],fuel:'久治、若尔盖、迭部。',alert:'今晚不住扎尕那景区内，住迭部更低海拔且暖气热水更稳。',ticket:'https://uri.amap.com/search?keyword=%E6%89%8E%E5%B0%95%E9%82%A3',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E8%BF%AD%E9%83%A8%20%E9%85%92%E5%BA%97',risk:'中'},
+      {d:13,date:'10/7',city:'迭部',from:'迭部',to:'扎尕那全天',km:'30km往返+徒步',lat:34.23,lng:103.18,alt:'约2400-3000m',theme:'扎尕那徒步',spots:['仙女滩','业日村','润吾沟'],fuel:'迭部。',alert:'徒步量力而行；若D10-D11高反未缓解，改迭部县城休整。',ticket:'https://uri.amap.com/search?keyword=%E6%89%8E%E5%B0%95%E9%82%A3',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E8%BF%AD%E9%83%A8%20%E5%8E%BF%E5%9F%8E',risk:'中'},
+      {d:14,date:'10/8',city:'郎木寺',from:'迭部',to:'郎木寺镇',km:'90km',lat:34.09,lng:102.64,alt:'约3300m',theme:'郎木寺深度游',spots:['郎木寺','红石崖日落'],fuel:'迭部、郎木寺。',alert:'海拔重新升高，若高反反复，直接去临夏/兰州，不住郎木寺。',ticket:'https://uri.amap.com/search?keyword=%E9%83%8E%E6%9C%A8%E5%AF%BA',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E9%83%8E%E6%9C%A8%E5%AF%BA%20%E5%AE%A2%E6%A0%88',risk:'中高'},
+      {d:15,date:'10/9',city:'兰州',from:'郎木寺',to:'夏河-拉卜楞寺-兰州',km:'350km',lat:36.06,lng:103.83,alt:'兰州约1520m',theme:'低海拔收尾',spots:['桑科草原','拉卜楞寺','兰州'],fuel:'郎木寺、合作、兰州。',alert:'从甘南回落到兰州，适合作为身体恢复和交车准备日。',ticket:'https://uri.amap.com/search?keyword=%E6%8B%89%E5%8D%9C%E6%A5%9E%E5%AF%BA',hotel:'https://hotels.ctrip.com/hotels/list?keyword=%E5%85%B0%E5%B7%9E%20%E9%85%92%E5%BA%97',risk:'低'},
+      {d:16,date:'10/10',city:'兰州中川机场',from:'兰州市区',to:'中川机场托运点-飞深圳',km:'市内+机场',lat:36.52,lng:103.62,alt:'约1940m',theme:'交车托运',spots:['交车托运','飞回深圳'],fuel:'按托运公司要求保留油量；交车前拍照验车。',alert:'交车、合同、保险、钥匙至少预留2-3小时。',ticket:'https://www.iyunche.com/',hotel:'https://m.ctrip.com/html5/flight/zgcszx-day-1.html',risk:'低'},
+      {d:17,date:'10/11',city:'缓冲日',from:'备用',to:'应急缓冲',km:'—',lat:36.06,lng:103.83,alt:'—',theme:'保险缓冲',spots:['道路封闭','高反恢复','航班备选'],fuel:'无固定安排。',alert:'若D16托运/航班顺利，此日不用启用；若前段延误，用于回收。',ticket:'https://www.variflight.com/h5/',hotel:'https://hotels.ctrip.com/',risk:'低'}
+    ];
+    const coords={兰州:[36.06,103.83],祁连:[38.18,100.25],张掖临泽:[38.96,100.13],敦煌:[40.14,94.66],德令哈:[37.37,97.37],大柴旦:[37.85,95.36],乌兰:[36.93,98.48],玛沁:[34.47,100.24],久治:[33.43,101.48],迭部:[34.06,103.23],郎木寺:[34.09,102.64],'兰州中川机场':[36.52,103.62]};
+    function pad(n){return String(n).padStart(2,'0')}function addDays(date,n){const d=new Date(date);d.setDate(d.getDate()+n);return d}function iso(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+    const sd=document.getElementById('startDate');function amap(day){return 'https://uri.amap.com/navigation?to='+day.lng+','+day.lat+','+encodeURIComponent(day.to)+'&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=1'}
+    function renderDays(weather={}){const grid=document.getElementById('dayGrid');grid.innerHTML='';route.forEach((day,i)=>{const date=addDays(sd.value,i);const key=iso(date);const wx=weather[day.city]?.[key];const wxText=wx?`${wx.max}°/${wx.min}°，降水${wx.pop}% ，风${wx.wind}km/h`:'超出实时逐日预报范围，临行前按当地预报复核';const el=document.createElement('article');el.className='card day span-6';el.innerHTML=`<div class="date"><strong>D${day.d}</strong><span>${day.date}<br>${day.city}</span></div><div class="body"><h3>${day.from} → ${day.to}</h3><div class="meta"><span class="tag hot">${day.km}</span><span class="tag good">${day.theme}</span><span class="tag blue">${day.alt}</span><span class="tag red">高反${day.risk}</span><span class="tag">${key}</span></div><p>${day.spots.join(' / ')}。</p><div class="split"><div class="weatherbox"><b>天气</b><br>${wxText}</div><div class="alert"><b>突发提醒</b><br>${day.alert}</div></div><div class="split"><div class="mini"><h4>加油/补给</h4><ul><li>${day.fuel}</li></ul></div><div class="mini"><h4>当天重点</h4><ul>${day.spots.map(s=>`<li>${s}</li>`).join('')}</ul></div></div><div class="linklist"><a href="${amap(day)}" target="_blank">高德路线</a><a href="${day.ticket}" target="_blank">门票/服务入口</a><a href="${day.hotel}" target="_blank">酒店/航班入口</a></div></div>`;grid.appendChild(el)})}
+    function initMap(){const map=L.map('map').setView([36.8,101.5],5);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);const pts=route.filter(r=>r.lat).map(r=>[r.lat,r.lng]);L.polyline(pts,{color:'#b45035',weight:4,opacity:.88}).addTo(map);route.filter(r=>r.lat).forEach(r=>L.marker([r.lat,r.lng]).addTo(map).bindPopup(`<b>D${r.d} ${r.city}</b><br>${r.from} → ${r.to}<br>${r.km}<br>海拔：${r.alt}<br>高反风险：${r.risk}<br>${r.fuel}`));map.fitBounds(pts,{padding:[30,30]});const buttons=document.getElementById('mapButtons');route.filter(r=>r.lat).forEach(r=>{const a=document.createElement('a');a.className='btn light';a.href='#mapsec';a.textContent='D'+r.d+' '+r.city;a.onclick=()=>{map.setView([r.lat,r.lng],8)};buttons.appendChild(a)})}
+    async function loadWeather(){const weather={};await Promise.all(Object.entries(coords).map(async([name,[lat,lon]])=>{const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max,weather_code&timezone=Asia%2FShanghai&forecast_days=16`;try{const j=await(await fetch(url)).json();weather[name]={};(j.daily.time||[]).forEach((t,i)=>weather[name][t]={max:j.daily.temperature_2m_max[i],min:j.daily.temperature_2m_min[i],pop:j.daily.precipitation_probability_max[i],wind:j.daily.wind_speed_10m_max[i]})}catch(e){}}));const txt=route.slice(0,5).map((r,i)=>{const key=iso(addDays(sd.value,i));const wx=weather[r.city]?.[key];return `${r.city}${wx?` ${wx.max}/${wx.min}° 降水${wx.pop}%`:' 气候提醒'}`}).join(' ｜ ');document.getElementById('weatherSummary').textContent=txt||'天气加载失败，请出发前以官方天气和导航为准。';renderDays(weather)}
+    sd.onchange=loadWeather;initMap();renderDays();loadWeather();
+  </script>
+</body>
+</html>
